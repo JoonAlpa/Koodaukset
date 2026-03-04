@@ -1,8 +1,13 @@
-const CACHE_NAME = 'juoksuseuranta-v1';
+const CACHE_NAME = 'juoksuseuranta-v2';
 const ASSETS = [
     './',
     './index.html',
     './manifest.json',
+    './css/styles.css',
+    './js/storage.js',
+    './js/utils.js',
+    './js/charts.js',
+    './js/app.js',
     'https://cdn.jsdelivr.net/npm/chart.js@4'
 ];
 
