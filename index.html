@@ -33,19 +33,41 @@
                 </div>
                 <div class="form-group">
                     <label>Matka (km)</label>
-                    <input type="number" id="run-distance" step="0.01" min="0.01" placeholder="esim. 5.5" required>
+                    <div class="distance-row">
+                        <select id="run-distance-preset" class="select-input">
+                            <option value="">Valitse...</option>
+                            <option value="1">1 km</option>
+                            <option value="2">2 km</option>
+                            <option value="3">3 km</option>
+                            <option value="5">5 km</option>
+                            <option value="7">7 km</option>
+                            <option value="10">10 km</option>
+                            <option value="15">15 km</option>
+                            <option value="21.1">Puolimaraton</option>
+                            <option value="42.2">Maraton</option>
+                            <option value="custom">Muu...</option>
+                        </select>
+                        <input type="number" id="run-distance" step="0.01" min="0.01" placeholder="km" class="distance-custom" style="display:none" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Kesto</label>
                     <div class="duration-inputs">
                         <div class="form-group">
-                            <input type="number" id="run-hours" min="0" max="23" placeholder="t" value="0">
+                            <select id="run-hours" class="select-input">
+                                <option value="0">0 h</option>
+                                <option value="1">1 h</option>
+                                <option value="2">2 h</option>
+                                <option value="3">3 h</option>
+                                <option value="4">4 h</option>
+                                <option value="5">5 h</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <input type="number" id="run-minutes" min="0" max="59" placeholder="min" required>
+                            <select id="run-minutes" class="select-input" required></select>
                         </div>
                         <div class="form-group">
-                            <input type="number" id="run-seconds" min="0" max="59" placeholder="s" value="0">
+                            <select id="run-seconds" class="select-input"></select>
                         </div>
                     </div>
                 </div>
@@ -62,7 +84,7 @@
     <div class="container">
         <div class="card">
             <h2>Juoksuhistoria</h2>
-            <div id="run-list"></div>
+            <div id="run-list" class="run-list-scroll"></div>
         </div>
     </div>
 </div>

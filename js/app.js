@@ -1,3 +1,42 @@
+// Populate minute and second selects
+(function populateSelects() {
+    const minSelect = document.getElementById('run-minutes');
+    const secSelect = document.getElementById('run-seconds');
+    for (let i = 0; i <= 59; i++) {
+        const minOpt = document.createElement('option');
+        minOpt.value = i;
+        minOpt.textContent = `${i} min`;
+        if (i === 0) minOpt.selected = true;
+        minSelect.appendChild(minOpt);
+
+        const secOpt = document.createElement('option');
+        secOpt.value = i;
+        secOpt.textContent = `${i} s`;
+        if (i === 0) secOpt.selected = true;
+        secSelect.appendChild(secOpt);
+    }
+})();
+
+// Distance preset dropdown
+const distPreset = document.getElementById('run-distance-preset');
+const distCustom = document.getElementById('run-distance');
+
+distPreset.addEventListener('change', () => {
+    if (distPreset.value === 'custom') {
+        distCustom.style.display = 'block';
+        distCustom.required = true;
+        distCustom.focus();
+    } else if (distPreset.value) {
+        distCustom.style.display = 'none';
+        distCustom.required = false;
+        distCustom.value = distPreset.value;
+    } else {
+        distCustom.style.display = 'none';
+        distCustom.value = '';
+    }
+    updatePacePreview();
+});
+
 // Navigation
 document.querySelectorAll('nav button').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -15,12 +54,20 @@ document.querySelectorAll('nav button').forEach(btn => {
 document.getElementById('run-date').valueAsDate = new Date();
 
 // Live pace calculation
-['run-distance', 'run-hours', 'run-minutes', 'run-seconds'].forEach(id => {
+['run-distance-preset', 'run-distance', 'run-hours', 'run-minutes', 'run-seconds'].forEach(id => {
+    document.getElementById(id).addEventListener('change', updatePacePreview);
     document.getElementById(id).addEventListener('input', updatePacePreview);
 });
 
+function getDistance() {
+    if (distPreset.value === 'custom') {
+        return parseFloat(distCustom.value) || 0;
+    }
+    return parseFloat(distPreset.value) || 0;
+}
+
 function updatePacePreview() {
-    const dist = parseFloat(document.getElementById('run-distance').value) || 0;
+    const dist = getDistance();
     const h = parseInt(document.getElementById('run-hours').value) || 0;
     const m = parseInt(document.getElementById('run-minutes').value) || 0;
     const s = parseInt(document.getElementById('run-seconds').value) || 0;
@@ -41,14 +88,18 @@ document.getElementById('run-form').addEventListener('submit', (e) => {
     e.preventDefault();
 
     const date = document.getElementById('run-date').value;
-    const distance = parseFloat(document.getElementById('run-distance').value);
+    const distance = getDistance();
     const hours = parseInt(document.getElementById('run-hours').value) || 0;
     const minutes = parseInt(document.getElementById('run-minutes').value) || 0;
     const seconds = parseInt(document.getElementById('run-seconds').value) || 0;
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
-    if (distance <= 0 || totalSeconds <= 0) {
-        showToast('Tarkista matka ja kesto');
+    if (distance <= 0) {
+        showToast('Valitse matka');
+        return;
+    }
+    if (totalSeconds <= 0) {
+        showToast('Aseta kesto');
         return;
     }
 
@@ -65,9 +116,12 @@ document.getElementById('run-form').addEventListener('submit', (e) => {
 
     showToast('Juoksu tallennettu!');
 
-    document.getElementById('run-distance').value = '';
+    // Reset form
+    distPreset.value = '';
+    distCustom.value = '';
+    distCustom.style.display = 'none';
     document.getElementById('run-hours').value = '0';
-    document.getElementById('run-minutes').value = '';
+    document.getElementById('run-minutes').value = '0';
     document.getElementById('run-seconds').value = '0';
     document.getElementById('run-date').valueAsDate = new Date();
     document.getElementById('pace-display').style.display = 'none';

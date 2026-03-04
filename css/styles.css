@@ -112,7 +112,8 @@ nav button svg {
     margin-bottom: 6px;
 }
 
-.form-group input {
+.form-group input,
+.form-group .select-input {
     width: 100%;
     padding: 12px;
     border: 1.5px solid var(--border);
@@ -121,11 +122,35 @@ nav button svg {
     color: var(--text);
     background: var(--bg);
     transition: border-color 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-.form-group input:focus {
+.form-group .select-input {
+    background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E") no-repeat right 12px center;
+    padding-right: 32px;
+    cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group .select-input:focus {
     outline: none;
     border-color: var(--primary);
+}
+
+/* Distance row */
+.distance-row {
+    display: flex;
+    gap: 8px;
+}
+
+.distance-row .select-input {
+    flex: 1;
+}
+
+.distance-row .distance-custom {
+    flex: 1;
+    min-width: 0;
 }
 
 .duration-inputs {
@@ -189,7 +214,23 @@ nav button svg {
     margin-top: 4px;
 }
 
-/* Run list */
+/* Run list - scrollable */
+.run-list-scroll {
+    max-height: 60vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+.run-list-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.run-list-scroll::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
 .run-item {
     display: flex;
     justify-content: space-between;
