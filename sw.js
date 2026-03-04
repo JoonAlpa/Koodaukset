@@ -1,14 +1,18 @@
-const CACHE_NAME = 'juoksuseuranta-v2';
+const CACHE_NAME = 'juoksuseuranta-v3';
 const ASSETS = [
     './',
     './index.html',
     './manifest.json',
     './css/styles.css',
+    './js/firebase-config.js',
     './js/storage.js',
     './js/utils.js',
     './js/charts.js',
     './js/app.js',
-    'https://cdn.jsdelivr.net/npm/chart.js@4'
+    'https://cdn.jsdelivr.net/npm/chart.js@4',
+    'https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js',
+    'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js',
+    'https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js'
 ];
 
 self.addEventListener('install', event => {

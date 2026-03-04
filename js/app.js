@@ -112,7 +112,7 @@ document.getElementById('run-form').addEventListener('submit', (e) => {
 
     const runs = getRuns();
     runs.push(run);
-    saveRuns(runs);
+    saveRunsSync(runs);
 
     showToast('Juoksu tallennettu!');
 
@@ -160,7 +160,7 @@ function renderHistory() {
 function deleteRun(id) {
     if (!confirm('Poistetaanko juoksu?')) return;
     const runs = getRuns().filter(r => r.id !== id);
-    saveRuns(runs);
+    saveRunsSync(runs);
     renderHistory();
     showToast('Juoksu poistettu');
 }
@@ -215,3 +215,18 @@ document.querySelectorAll('.period-btn').forEach(btn => {
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js');
 }
+
+// Firebase init: sync data and start real-time listener
+initStorage().then(function() {
+    // Re-render current page with synced data
+    var activePage = document.querySelector('.page.active');
+    if (activePage && activePage.id === 'page-history') renderHistory();
+    if (activePage && activePage.id === 'page-stats') renderStats();
+
+    // Listen for real-time updates from Firestore
+    listenFirestore(function() {
+        var activePage = document.querySelector('.page.active');
+        if (activePage && activePage.id === 'page-history') renderHistory();
+        if (activePage && activePage.id === 'page-stats') renderStats();
+    });
+});
